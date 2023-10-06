@@ -1,9 +1,9 @@
 const express = require("express")
 const {faker} = require("@faker-js/faker")
 
-const route = express.Router()
+const router = express.Router()
 
-route.get('/', (req,res) => {
+router.get('/', (req,res) => {
   const {size} = req.query
   const limit = size || 10
   const products = []
@@ -18,7 +18,7 @@ route.get('/', (req,res) => {
   res.json(products)
 })
 
-route.get('/:id', (req,res) => {
+router.get('/:id', (req,res) => {
   const {id} = req.params
   res.json({
     id,
@@ -28,4 +28,12 @@ route.get('/:id', (req,res) => {
 )
 })
 
-module.exports = route
+router.post('/', (req,res)=>{
+  const body = req.body
+  res.json({
+    message:"created",
+    data: body
+  })
+})
+
+module.exports = router
