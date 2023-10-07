@@ -20,8 +20,8 @@ class ProductsService {
   }
   }
 
-  create(){
-
+  create(product){
+    this.products.push(product)
   }
 
   find() {
