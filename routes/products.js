@@ -20,17 +20,23 @@ router.get('/', (req,res) => {
 
 router.get('/:id', (req,res) => {
   const {id} = req.params
-  res.json({
-    id,
-    price:100,
-    productName: 'mixer'
-  },
-)
+  if (id === '999') {
+    res.status(404).json({
+      errorMessage: 'this product does not exist'
+    })
+  } else {
+    res.json({
+      id,
+      price:100,
+      productName: 'mixer'
+    },
+  )
+  }
 })
 
 router.post('/', (req,res)=>{
 const body = req.body
-  res.json({
+  res.status(201).json({
     message:"created",
     data: body
   })
