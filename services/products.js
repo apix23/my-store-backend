@@ -7,7 +7,7 @@ class ProductsService {
     this.generate()
   }
 
-  generate() {
+  async generate() {
   const limit = 100
   for (let index = 0; index < limit; index++) {
     this.products.push({
@@ -23,18 +23,24 @@ class ProductsService {
   create(productProps){
     const product = {id:faker.datatype.uuid(), ...productProps}
     this.products.push(product)
+    return product
   }
 
   find() {
-    return this.products
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.products)
+      }, 5000);
+    })
+
   }
 
-  findOne(id){
+  async findOne(id){
     const product = this.products.find(item => item.id === id)
     return product
   }
 
-  update(id, change){
+  async update(id, change){
     const productPosition = this.products.findIndex(item => item.id === id)
     if (productPosition === -1) {
       throw new Error('the id provided does not exist')
@@ -44,7 +50,7 @@ class ProductsService {
     return this.products[productPosition]
   }
 
-  delete(id){
+  async delete(id){
     const productPosition = this.products.findIndex(item => item.id === id)
     this.products.splice(productPosition,1)
     return {id, message:'element deleted succesfully'}
