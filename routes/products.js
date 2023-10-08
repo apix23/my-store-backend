@@ -3,23 +3,23 @@ const express = require("express")
 const ProductsService = require("../services/products")
 
 const router = express.Router()
-const services = new ProductsService()
+const service = new ProductsService()
 
 router.get('/', (req,res) => {
-  const products = services.find()
+  const products = service.find()
 
   res.json(products)
 })
 
 router.get('/:id', (req,res) => {
   const {id} = req.params
-  const product = services.findOne(id)
+  const product = service.findOne(id)
   res.json(product)
 })
 
 router.post('/', (req,res)=>{
 const body = req.body
-services.create(body)
+service.create(body)
   res.status(201).json({
     message:"created",
   })
@@ -37,21 +37,19 @@ using a put
 router.patch('/:id', (req,res)=>{
 const body = req.body
 const {id} = req.params
-  res.json({
-    id,
-    message:`properties changed: ${JSON.stringify(body)}`,
-    body
-  })
+try {
+  const product = service.update(id,body)
+  res.json(product)
+} catch (error) {
+  res.status(404).json({error: error.message})
+}
 })
 
 
 router.delete('/:id', (req,res)=>{
-const {id} = req.params
-  res.json({
-    id,
-    message:"the element was deleted",
-
-  })
+  const {id} = req.params
+  const rst = service.delete(id)
+  res.json(rst)
 })
 
 module.exports = router

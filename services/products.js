@@ -20,7 +20,8 @@ class ProductsService {
   }
   }
 
-  create(product){
+  create(productProps){
+    const product = {id:faker.datatype.uuid(), ...productProps}
     this.products.push(product)
   }
 
@@ -29,15 +30,24 @@ class ProductsService {
   }
 
   findOne(id){
-    return this.products.find(item => item.id === id)
+    const product = this.products.find(item => item.id === id)
+    return product
   }
 
-  update(){
-
+  update(id, change){
+    const productPosition = this.products.findIndex(item => item.id === id)
+    if (productPosition === -1) {
+      throw new Error('the id provided does not exist')
+    }
+    const product = this.products[productPosition]
+    this.products[productPosition] = {...product, ...change}
+    return this.products[productPosition]
   }
 
-  delete(){
-
+  delete(id){
+    const productPosition = this.products.findIndex(item => item.id === id)
+    this.products.splice(productPosition,1)
+    return {id, message:'element deleted succesfully'}
   }
 }
 
