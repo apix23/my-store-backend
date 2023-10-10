@@ -38,14 +38,14 @@ In case we wanted to eddit all of then, for convention we would be
 using a put
 
 */
-router.patch('/:id', async (req,res)=>{
+router.patch('/:id', async (req,res, next)=>{
 const body = req.body
 const {id} = req.params
 try {
   const product = await service.update(id,body)
   res.json(product)
-} catch (error) {
-  res.status(404).json({error: error.message})
+} catch (err) {
+  next(err)
 }
 })
 
