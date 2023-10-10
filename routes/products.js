@@ -1,6 +1,8 @@
 const express = require("express")
 
+const validator = require("../middlewares/validator")
 const ProductsService = require("../services/products")
+const {createProductSchema, updateProductSchema, getProductSchema} = require("../shcemas/product")
 
 const router = express.Router()
 const service = new ProductsService()
@@ -11,7 +13,7 @@ router.get('/', async (req,res) => {
   res.json(products)
 })
 
-router.get('/:id', async ( req,res, next ) => {
+router.get('/:id', validator(getProductSchema,'params'),async ( req,res, next ) => {
   try {
     const {id} = req.params
     const product = await service.findOne(id)
@@ -23,7 +25,7 @@ router.get('/:id', async ( req,res, next ) => {
   }
 })
 
-router.post('/', async (req,res)=>{
+router.post('/', validator(createProductSchema,'body'), async (req,res)=>{
 const body = req.body
 const newProduct = await service.create(body)
   res.status(201).json(newProduct)
@@ -38,7 +40,7 @@ In case we wanted to eddit all of then, for convention we would be
 using a put
 
 */
-router.patch('/:id', async (req,res, next)=>{
+router.patch('/:id', validator(getProductSchema,'params'),validator(updateProductSchema,'body'),async (req,res, next)=>{
 const body = req.body
 const {id} = req.params
 try {
