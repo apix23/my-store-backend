@@ -1,5 +1,6 @@
 const express = require("express")
 const routersApi = require("./routes")
+const {logErrors, handleError} = require("./middlewares/error")
 const app = express()
 const port = 3000
 
@@ -12,6 +13,10 @@ app.get('/', (req,res) => {
 
 
 routersApi(app)
+
+
+app.use(logErrors)
+app.use(handleError)
 
 app.listen(port, ()=> {
   console.log(`Example app listening on port ${port}` )

@@ -36,6 +36,7 @@ class ProductsService {
   }
 
   async findOne(id){
+    const test = this.removeAll()
     const product = this.products.find(item => item.id === id)
     return product
   }
