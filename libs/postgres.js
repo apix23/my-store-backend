@@ -1,15 +1,16 @@
 const { Client } = require('pg');
 
-async function getConnectionToDatabes() {
+async function getConnection() {
   const client = new Client({
     host: 'localhost',
     port: 5432,
-    database: 'my_store',
     user: 'nico',
     password: 'admin123',
+    database: 'my_store',
   });
 
   await client.connect();
+  return client;
 }
 
-module.exports = { getConnectionToDatabes };
+module.exports = getConnection;

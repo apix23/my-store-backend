@@ -1,14 +1,13 @@
-const express = require("express")
+const express = require('express');
 
-const route = express.Router()
-const UsersService = require("../services/users")
+const route = express.Router();
+const UsersService = require('../services/users');
 
-const service = new UsersService()
+const service = new UsersService();
 
+route.get('/', async (req, res) => {
+  const users = await service.find();
+  res.json(users);
+});
 
-route.get('/', (req,res) => {
-  const users = service.find()
-  res.json(users)
-})
-
-module.exports = route
+module.exports = route;
